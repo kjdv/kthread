@@ -24,6 +24,8 @@ public:
 
   explicit sender(queue_ptr<value_type> q);
 
+  void close();
+
   bool push(value_type value);
 
 private:
@@ -63,6 +65,12 @@ sender<T>::sender(queue_ptr<value_type> q)
 }
 
 template<typename T>
+void sender<T>::close()
+{
+  d_q->close();
+}
+
+template<typename T>
 bool sender<T>::push(sender::value_type value)
 {
   return d_q->push(std::move(value));
@@ -87,5 +95,6 @@ channel<T> make_channel(size_t max_size)
   auto q = make_queue<T>(max_size);
   return channel<T>{receiver(q), sender(q)};
 }
+
 
 }
