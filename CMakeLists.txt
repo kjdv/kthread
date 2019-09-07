@@ -20,10 +20,11 @@ add_subdirectory(examples)
 
 # install rules
 install(TARGETS kthread
-        EXPORT KthreadConfig
+        EXPORT KthreadTargets
         ARCHIVE DESTINATION lib COMPONENT lib
         PUBLIC_HEADER DESTINATION include/kthread COMPONENT dev
 )
+install(FILES KthreadConfig.cmake DESTINATION share/kthread)
 
-export(TARGETS kthread NAMESPACE Kthread:: FILE ${CMAKE_CURRENT_BINARY_DIR}/KthreadConfig.cmake)
-install(EXPORT KthreadConfig DESTINATION share/kthread NAMESPACE Kthread::)
+install(EXPORT KthreadTargets DESTINATION share/kthread NAMESPACE Kthread::)
+export(TARGETS kthread NAMESPACE Kthread:: FILE ${CMAKE_CURRENT_BINARY_DIR}/KthreadTargers.cmake)
