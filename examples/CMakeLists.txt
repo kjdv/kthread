@@ -9,3 +9,5 @@ foreach(example ${examples})
   add_test(example.${example_name} ${example_name})
   
 endforeach()
+
+target_link_libraries(benchmarks PUBLIC benchmark::benchmark benchmark::benchmark_main)
