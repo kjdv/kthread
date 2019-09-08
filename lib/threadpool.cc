@@ -47,7 +47,6 @@ void threadpool::run()
   while(d_q.pop()
             .map([](auto&& job) {
               job();
-              return 0;
             })
             .is_some())
     ;

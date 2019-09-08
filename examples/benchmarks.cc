@@ -1,6 +1,7 @@
 #include <benchmark/benchmark.h>
 #include <queue.hh>
 #include <thread>
+#include <threadpool.hh>
 #include <iostream>
 
 namespace kthread {
@@ -52,6 +53,14 @@ void bm_queue_push_pop_uncontended(benchmark::State& state)
 
 BENCHMARK(bm_queue_push_pop_uncontended);
 
+void bm_threadpool_post(benchmark::State& state)
+{
+  threadpool pool;
+  for (auto _ : state)
+    pool.post([]{});
+}
+
+BENCHMARK(bm_threadpool_post);
 
 }
 }
