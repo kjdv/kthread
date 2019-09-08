@@ -34,6 +34,22 @@ TEST(queue, st_push_pop)
   EXPECT_EQ(3, q.pop().unwrap());
 }
 
+TEST(queue, move_only_push_pop)
+{
+  using move_only = std::unique_ptr<int>;
+  auto make = [](int i) { return std::make_unique<int>(i); };
+
+  queue<move_only> q(3);
+  q.push(make(1));
+  q.push(make(2));
+  q.push(make(3));
+
+  EXPECT_EQ(1, *q.pop().unwrap());
+  EXPECT_EQ(2, *q.pop().unwrap());
+  EXPECT_EQ(3, *q.pop().unwrap());
+}
+
+
 TEST(queue, try_push_pop)
 {
   queue<int> q(3);

@@ -38,7 +38,20 @@ void bm_queue_pop(benchmark::State& state)
   t.join();
 }
 
-BENCHMARK(bm_queue_pop);
+BENCHMARK(bm_queue_push);
+
+void bm_queue_push_pop_uncontended(benchmark::State& state)
+{
+  queue<int> q;
+  for (auto _ : state)
+  {
+    q.push(1);
+    q.pop();
+  }
+}
+
+BENCHMARK(bm_queue_push_pop_uncontended);
+
 
 }
 }
