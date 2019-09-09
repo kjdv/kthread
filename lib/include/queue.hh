@@ -5,7 +5,6 @@
 #include <mutex>
 #include <condition_variable>
 #include <cassert>
-#include <boost/circular_buffer.hpp>
 
 namespace kthread
 {
@@ -50,7 +49,7 @@ private:
 
   size_t d_max_size;
   bool d_open{true};
-  boost::circular_buffer<value_type> d_q;
+  std::queue<value_type> d_q;
   mutable std::mutex d_m;
   std::condition_variable d_notfull;
   std::condition_variable d_notempty;
@@ -59,7 +58,6 @@ private:
 template<typename T>
 queue<T>::queue(size_t max_size)
   : d_max_size(max_size)
-  , d_q(max_size)
 {
   assert(d_max_size > 0);
 }
@@ -96,7 +94,7 @@ bool queue<T>::do_push(lock_t &l, value_type item)
   if (!d_open)
     return false;
 
-  d_q.push_back(std::move(item));
+  d_q.push(std::move(item));
 
   l.unlock();
   d_notempty.notify_one();
@@ -133,7 +131,7 @@ typename queue<T>::option queue<T>::do_pop(lock_t &l)
   }
 
   auto r = option::some(std::move(d_q.front()));
-  d_q.pop_front();
+  d_q.pop();
 
   l.unlock();
   d_notfull.notify_one();
