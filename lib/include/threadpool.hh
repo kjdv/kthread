@@ -25,6 +25,8 @@ public:
 
   bool post(job_t job);
 
+  size_t num_threads() const;
+
 private:
   void run();
 

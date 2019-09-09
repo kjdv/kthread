@@ -42,6 +42,11 @@ bool threadpool::post(threadpool::job_t job)
   return d_q.push(std::move(job));
 }
 
+size_t threadpool::num_threads() const
+{
+  return d_ts.size();
+}
+
 void threadpool::run()
 {
   while(d_q.pop()
