@@ -80,10 +80,7 @@ void processor<T, C>::run()
 {
   assert(d_consumer);
 
-  while (d_channel.rx.receive()
-            .map([this](auto&& item) { d_consumer.value()(item); })
-            .is_some())
-    ;
+  foreach(d_channel.rx, [this](auto&& item) { d_consumer.value()(item); });
 }
 
 }

@@ -49,12 +49,7 @@ size_t threadpool::num_threads() const
 
 void threadpool::run()
 {
-  while(d_q.pop()
-            .map([](auto&& job) {
-              job();
-            })
-            .is_some())
-    ;
+  foreach(d_q, [](auto&& job) { job(); });
 }
 
 unsigned guess_num_cpu() noexcept

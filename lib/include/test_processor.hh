@@ -54,7 +54,7 @@ std::vector<T> test_processor<T>::collect()
 {
   std::vector<T> r;
   while(d_q->try_pop()
-            .map([&](auto && item) { r.push_back(item); return 0; })
+            .map([&](auto && item) { r.push_back(item); })
             .is_some())
     ;
   return r;
