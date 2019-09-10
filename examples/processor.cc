@@ -22,7 +22,7 @@ void fibonacci(int n, sender<int> tx)
 
   for(int i = 0; i < n; ++i)
   {
-    tx.push(a);
+    tx.send(a);
 
     b = b + a;
     a = b - a;

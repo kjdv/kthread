@@ -23,12 +23,12 @@ TEST(test_processor, process)
   test_processor<int> p;
 
   auto tx = p.tx();
-  EXPECT_TRUE(tx.push(1));
-  EXPECT_TRUE(tx.push(2));
-  EXPECT_TRUE(tx.push(3));
+  EXPECT_TRUE(tx.send(1));
+  EXPECT_TRUE(tx.send(2));
+  EXPECT_TRUE(tx.send(3));
 
   p.close();
-  EXPECT_FALSE(tx.push(4));
+  EXPECT_FALSE(tx.send(4));
 
   EXPECT_THAT(p.collect(), ElementsAre(1, 2, 3));
 }

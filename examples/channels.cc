@@ -21,7 +21,7 @@ void consume(receiver<int> tx)
 void produce(int n, sender<int> tx)
 {
   for(int i = 0; i < n; ++i)
-    tx.push(i);
+    tx.send(i);
   tx.close();
 }
 

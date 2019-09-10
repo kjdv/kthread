@@ -15,20 +15,20 @@ TEST(sender, forwards)
   auto q = make_queue<int>();
   sender<int> c(q);
 
-  EXPECT_TRUE(c.push(1));
+  EXPECT_TRUE(c.send(1));
   EXPECT_EQ(1, q->pop().unwrap());
 
   q->close();
-  EXPECT_FALSE(c.push(2));
+  EXPECT_FALSE(c.send(2));
 }
 
 TEST(channel, connected_pair)
 {
   auto c = make_channel<int>();
 
-  c.tx.push(1);
-  c.tx.push(2);
-  c.tx.push(3);
+  c.tx.send(1);
+  c.tx.send(2);
+  c.tx.send(3);
 
   EXPECT_EQ(1, c.rx.receive().unwrap());
   EXPECT_EQ(2, c.rx.receive().unwrap());

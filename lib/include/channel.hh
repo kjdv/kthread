@@ -26,7 +26,7 @@ public:
 
   void close();
 
-  bool push(value_type value);
+  bool send(value_type value);
 
 private:
   queue_ptr<value_type> d_q;
@@ -71,7 +71,7 @@ void sender<T>::close()
 }
 
 template<typename T>
-bool sender<T>::push(sender::value_type value)
+bool sender<T>::send(sender::value_type value)
 {
   return d_q->push(std::move(value));
 }
