@@ -80,7 +80,7 @@ void processor<T, C>::run()
 {
   assert(d_consumer);
 
-  foreach(d_channel.rx, [this](auto&& item) { d_consumer.value()(item); });
+  foreach(d_channel.rx, [this](auto&& item) { (*d_consumer)(std::move(item)); });
 }
 
 }

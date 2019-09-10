@@ -23,6 +23,23 @@ struct consumer
   }
 };
 
+struct nc_consumer
+{
+  using type = std::unique_ptr<int>;
+
+  vector<int> &receiver;
+
+  nc_consumer(vector<int> &r)
+    : receiver(r)
+  {}
+
+  void operator()(type&& i)
+  {
+    assert(i);
+    receiver.push_back(*i);
+  }
+};
+
 TEST(processor, consruct)
 {
   processor<int, consumer> p;
@@ -49,6 +66,25 @@ TEST(processor, process)
 
   p.close();
   EXPECT_FALSE(tx.send(4));
+
+  EXPECT_THAT(r, ElementsAre(1, 2, 3));
+}
+
+TEST(processor, noncopyable)
+{
+  using T = std::unique_ptr<int>;
+  auto make = [](int i) { return std::make_unique<int>(i); };
+
+  vector<int> r;
+  processor<T, nc_consumer> p;
+  p.connect(r);
+
+  auto tx = p.tx();
+  tx.send(make(1));
+  tx.send(make(2));
+  tx.send(make(3));
+
+  p.close();
 
   EXPECT_THAT(r, ElementsAre(1, 2, 3));
 }
