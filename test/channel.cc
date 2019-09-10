@@ -30,9 +30,9 @@ TEST(channel, connected_pair)
   c.tx.push(2);
   c.tx.push(3);
 
-  EXPECT_EQ(1, c.rx.pull().unwrap());
-  EXPECT_EQ(2, c.rx.pull().unwrap());
-  EXPECT_EQ(3, c.rx.pull().unwrap());
+  EXPECT_EQ(1, c.rx.receive().unwrap());
+  EXPECT_EQ(2, c.rx.receive().unwrap());
+  EXPECT_EQ(3, c.rx.receive().unwrap());
 }
 
 }

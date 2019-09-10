@@ -1,6 +1,6 @@
 #pragma once
 
-#include <queue.hh>
+#include "queue.hh"
 #include <memory>
 #include <cassert>
 #include <utility>
@@ -41,7 +41,7 @@ public:
 
   explicit receiver(queue_ptr<value_type> q);
 
-  option pull();
+  option receive();
 
 private:
   queue_ptr<value_type> d_q;
@@ -84,7 +84,7 @@ receiver<T>::receiver(queue_ptr<value_type> q)
 }
 
 template<typename T>
-typename receiver<T>::option receiver<T>::pull()
+typename receiver<T>::option receiver<T>::receive()
 {
   return d_q->pop();
 }

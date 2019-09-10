@@ -9,7 +9,7 @@ using namespace kthread;
 
 void consume(receiver<int> tx)
 {
-  while(tx.pull()
+  while(tx.receive()
             .map([](auto&& item) {
               cout << "consuming " << item << '\n';
               return 0;
