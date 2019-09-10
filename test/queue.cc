@@ -1,5 +1,6 @@
 #include <queue.hh>
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <type_traits>
 #include <thread>
 #include <vector>
@@ -136,6 +137,38 @@ TEST(queue, multi_producer_multi_consumer)
   EXPECT_EQ(0, *found.begin());
   EXPECT_EQ(99, *found.rbegin());
 }
+
+
+TEST(queue, foreach)
+{
+  queue<int> q;
+  q.push(1);
+  q.push(2);
+  q.push(3);
+  q.close();
+
+  std::vector<int> r;
+  foreach(q, [&r](auto i) { r.push_back(i); });
+
+  EXPECT_THAT(r, testing::ElementsAre(1, 2, 3));
+}
+
+TEST(queue, foreach_noncopyable)
+{
+  using T = std::unique_ptr<int>;
+
+  queue<T> q;
+  q.push(std::make_unique<int>(1));
+  q.push(std::make_unique<int>(2));
+  q.push(std::make_unique<int>(3));
+  q.close();
+
+  std::vector<int> r;
+  foreach(q, [&r](auto&& i) { r.push_back(*i); });
+
+  EXPECT_THAT(r, testing::ElementsAre(1, 2, 3));
+}
+
 
 }
 }

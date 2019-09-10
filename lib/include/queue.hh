@@ -55,6 +55,9 @@ private:
   std::condition_variable d_notempty;
 };
 
+template <typename T, typename F>
+void foreach(queue<T> &q, F && f);
+
 template<typename T>
 queue<T>::queue(size_t max_size)
   : d_max_size(max_size)
@@ -168,6 +171,16 @@ template<typename T>
 bool queue<T>::not_full() const
 {
   return !d_open || d_q.size() < d_max_size;
+}
+
+
+template <typename T, typename F>
+void foreach(queue<T> &q, F && f)
+{
+  while(q.pop()
+         .consume(f)
+         .is_some())
+    ;
 }
 
 }

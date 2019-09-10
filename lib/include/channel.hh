@@ -47,6 +47,9 @@ private:
   queue_ptr<value_type> d_q;
 };
 
+template <typename T, typename F>
+void foreach(receiver<T> &r, F && f);
+
 template <typename T>
 struct channel
 {
@@ -96,5 +99,13 @@ channel<T> make_channel(size_t max_size)
   return channel<T>{receiver(q), sender(q)};
 }
 
+template <typename T, typename F>
+void foreach(receiver<T> &r, F && f)
+{
+  while(r.receive()
+         .consume(f)
+         .is_some())
+    ;
+}
 
 }
