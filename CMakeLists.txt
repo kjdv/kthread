@@ -10,6 +10,7 @@ enable_testing()
 
 
 # dependencies:
+find_package(Threads REQUIRED)
 find_package(benchmark CONFIG REQUIRED)
 find_package(Results CONFIG REQUIRED)
 

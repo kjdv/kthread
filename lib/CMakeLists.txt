@@ -16,6 +16,6 @@ target_include_directories(kthread
 
 
 target_link_libraries(kthread
-    PUBLIC Results::results
+    PUBLIC Results::results Threads::Threads
 )
 
